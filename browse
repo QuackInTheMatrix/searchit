@@ -1,0 +1,9 @@
+#!/bin/bash
+case $1 in
+    -l)
+        python search-it.py list
+        ;;
+    *)
+        python search-it.py $@
+        ;;
+esac
