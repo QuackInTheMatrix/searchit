@@ -15,17 +15,20 @@ def saveinfo(nick, url, name, action):
         else:
             stored=open("stored.txt",'a')
             stored.write("\n"+nick+" "+url+" "+name+" "+action)
-    except:
+    except FileNotFoundError:
         stored=open("stored.txt",'w')
         stored.write(nick+" "+url+" "+name+" "+action)
     stored.close()
         
 def readinfo():
-    stored=open("stored.txt",'r')
-    saved=stored.readlines()
+    try:
+        stored=open("stored.txt",'r')
+        saved=stored.readlines()
+        stored.close()
+    except FileNotFoundError:
+        saved=[]
     for i in range(len(saved)):
         saved[i]=saved[i].split()
-    stored.close()
     return saved
         
 def checkurl(adr):
@@ -79,14 +82,13 @@ def siteinfo(adr):
     
     return (name,action)
 
+websaved=readinfo()
 if(sys.argv[1]=="list"):
-    shortcuts=readinfo()
-    for i in shortcuts:
+    for i in websaved:
         print(i[0],end=",")
     print("")
     exit()
 issaved=False
-websaved=readinfo()
 sys.argv.pop(0)
 url=sys.argv[0]
 
