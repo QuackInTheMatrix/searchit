@@ -5,7 +5,7 @@ Did you ever wish you could use a search function on a webpage without opening t
 * It can be used by passing the website address(youtube.com for example) and desired to the python program. 
 The form looks like this: 
 ```
-python search-it.py [website] [search]
+python searchit.py [website] [search]
 ```
 * For example running "python search-it.py youtube.com linux" would search youtube for linux.
 # Required python dependencies
