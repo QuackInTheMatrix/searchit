@@ -89,6 +89,7 @@ if(sys.argv[1]=="list"):
     print("")
     exit()
 issaved=False
+islinked=False
 sys.argv.pop(0)
 url=sys.argv[0]
 
@@ -124,8 +125,13 @@ else:
 wb.open(final)
 
 if(issaved==False):
-    wantsave=input("Would you like to save this website?(Enter name for website "+url+" or leave blank)")
-    if(wantsave!=""):
-        saveinfo(wantsave,url,name,action)
+    for link in websaved:
+        if(link[1]==url):
+            islinked=True
+            break
+    if(islinked==False):
+        wantsave=input("Would you like to save this website?(Enter name for website "+url+" or leave blank)")
+        if(wantsave!=""):
+            saveinfo(wantsave,url,name,action)
 
 # amazon would work but BeautifulSoup can't get the page properly. Can be added manually if needed.
