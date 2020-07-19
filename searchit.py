@@ -6,18 +6,8 @@ import webbrowser as wb
 import sys
 
 def saveinfo(nick, url, name, action):
-    try:
-        stored=open("stored.txt",'r')
-        isnext=stored.read()
-        if(isnext[len(isnext)-1]=='\n'):
-            stored=open("stored.txt",'a')
-            stored.write(nick+" "+url+" "+name+" "+action)
-        else:
-            stored=open("stored.txt",'a')
-            stored.write("\n"+nick+" "+url+" "+name+" "+action)
-    except FileNotFoundError:
-        stored=open("stored.txt",'w')
-        stored.write(nick+" "+url+" "+name+" "+action)
+    stored=open("stored.txt",'a')
+    stored.write(nick+" "+url+" "+name+" "+action+"\n")
     stored.close()
         
 def readinfo():
@@ -83,22 +73,13 @@ def siteinfo(adr):
     return (name,action)
 
 websaved=readinfo()
-if(sys.argv[1]=="list"):
-    for i in websaved:
-        print(i[0],end=",")
-    print("")
-    exit()
 issaved=False
 islinked=False
 sys.argv.pop(0)
 url=sys.argv[0]
 
 sys.argv.pop(0)
-search=sys.argv[0]
-sys.argv.pop(0)
-
-for i in sys.argv:
-    search+="+"+i
+search="+".join(sys.argv)
     
 for webpage in websaved:
     if(webpage==[]):
