@@ -27,23 +27,18 @@ def checkurl(adr):
 def fixurl(adr):
     if(not re.match("https://|http://",url)):
         adr="https://"+adr
-    if(not checkurl(adr) and adr[-1]=="."):
-        adr=adr[0:-1]
     if(not checkurl(adr)):
         if(re.match("(https://|http://)(\w+\.)*(.+)",adr)):
             print("Domain name like (eg. .com) is missing from the given website.")
-            domain=input("Use .com as the domain?(Y/Insert custom domain)").lower()
-            if(domain=="y" or domain==""):
+            domain=input("Use .com as the domain?(Y(default)/Insert custom domain)").lower()
+            if(domain=="y" or domain=="" or domain=="yes"):
                 adr=adr+".com"
             else:
                 adr=adr+domain
     if(checkurl(adr)):
         return adr
     else:
-        if(input("The url is still broken. Attempt repair again or try using the given address ?(Y/N)").lower()=="y"):
-            fixurl(adr)
-        else:
-            return adr
+        print(f"The url {adr} is invalid. Please enter a correct web address.")
 
 def siteinfo(adr):
     name=""
@@ -75,11 +70,10 @@ def siteinfo(adr):
 websaved=readinfo()
 issaved=False
 islinked=False
-sys.argv.pop(0)
-url=sys.argv[0]
+url=sys.argv[1]
 
-sys.argv.pop(0)
-search="+".join(sys.argv)
+
+search="+".join(sys.argv[2:])
     
 for webpage in websaved:
     if(webpage==[]):
