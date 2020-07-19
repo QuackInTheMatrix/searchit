@@ -7,7 +7,7 @@ import sys
 
 def saveinfo(nick, url, name, action):
     stored=open("stored.txt",'a')
-    stored.write(nick+" "+url+" "+name+" "+action+"\n")
+    stored.write(f"{nick} {url} {name} {action}\n")
     stored.close()
         
 def readinfo():
@@ -35,10 +35,7 @@ def fixurl(adr):
                 adr=adr+".com"
             else:
                 adr=adr+domain
-    if(checkurl(adr)):
-        return adr
-    else:
-        print(f"The url {adr} is invalid. Please enter a correct web address.")
+    return adr
 
 def siteinfo(adr):
     name=""
@@ -71,8 +68,6 @@ websaved=readinfo()
 issaved=False
 islinked=False
 url=sys.argv[1]
-
-
 search="+".join(sys.argv[2:])
     
 for webpage in websaved:
@@ -88,14 +83,12 @@ for webpage in websaved:
 if(issaved==False):
     if(not checkurl(url)):
         url=fixurl(url)
-
     name, action=siteinfo(url)
  
-    
 if("https" in action or "http" in action):
-    final=action+"?"+name+"="+search
+    final=f"{action}?{name}={search}"
 else:
-    final=url+action+"?"+name+"="+search
+    final=f"{url}{action}?{name}={search}"
 
 wb.open(final)
 
@@ -105,7 +98,7 @@ if(issaved==False):
             islinked=True
             break
     if(islinked==False):
-        wantsave=input("Would you like to save this website?(Enter name for website "+url+" or leave blank)")
+        wantsave=input(f"Would you like to save this website?(Enter name for website {url} or leave blank)")
         if(wantsave!=""):
             saveinfo(wantsave,url,name,action)
 
