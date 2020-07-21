@@ -1,22 +1,24 @@
 #!/bin/bash
 case $1 in
     --help)
+        echo "browse [webpage] [search]"
         echo "**********************************************************"
         echo "Description:"
         echo "Use the websites search function without opening the page."
         echo "**********************************************************"
         echo "Here is the list of all availabe commands:"
         echo ""
-        echo "browse [webpage] [search]     Will search the webpage with search"
-        echo "-l                            Lists all saved webpages"
+        echo "browse [webpage] [search]     Will search a website with [search]"
+        echo "-f [\"search link\"]            Used for unscrapable websites by searching test and using the given link in quotes"
+        echo "-l                            Lists all saved websites"
         echo ""
+        ;;
+    -f)
+        python searchit.py find $2
         ;;
     -l)
         echo "This is a list of saved websites:"
-        echo ""
-        while read line; do
-        echo $line | cut -d" " -f1
-        done < stored.txt
+        cut -d" " -f1 stored.txt
         ;;
     *)
         python searchit.py $@

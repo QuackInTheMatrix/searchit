@@ -5,9 +5,31 @@ import re
 import webbrowser as wb
 import sys
 
-def saveinfo(nick, url, name, action):
+def savecheck(url):
+    websaved=readinfo()
+    for page in websaved:
+        if(page[0]==url):
+            return page[1]
+
+def findparam(url):
+    name=""
+    website=re.search("(https://|http://)(\w+\.)*(.+(?=\.))(\..+)(?=\?)",url)
+    shorted=url[website.span()[1]:]
+    if "&" in shorted:
+        shorted=shorted.split("&")
+    else:
+        shorted=[shorted]
+    for arguments in shorted:
+        if "test" in arguments:
+            values=arguments.split("?")
+            name=values[1].split("=")[0]
+            break
+    nickname=input("Enter the name for saved page: ")
+    saveinfo(nickname, f"{website.group()}?{name}=")
+            
+def saveinfo(nick, link):
     stored=open("stored.txt",'a')
-    stored.write(f"{nick} {url} {name} {action}\n")
+    stored.write(f"{nick} {link}\n")
     stored.close()
         
 def readinfo():
@@ -26,18 +48,21 @@ def checkurl(adr):
 
 def fixurl(adr):
     if(not re.match("https://|http://",url)):
-        adr="https://"+adr
+        adr=f"https://{adr}"
     if(not checkurl(adr)):
         if(re.match("(https://|http://)(\w+\.)*(.+)",adr)):
-            print("Domain name like (eg. .com) is missing from the given website.")
+            print("Domain name like (.com) is missing from the given website.")
             domain=input("Use .com as the domain?(Y(default)/Insert custom domain)").lower()
             if(domain=="y" or domain=="" or domain=="yes"):
-                adr=adr+".com"
+                adr=f"{adr}.com"
             else:
-                adr=adr+domain
+                if(domain[0]=="."):
+                    adr=f"{adr}{domain}"
+                else:
+                    adr=f"{adr}.{domain}"
     return adr
 
-def siteinfo(adr):
+def getlink(adr):
     name=""
     action=""
     response = requests.get(url)
@@ -61,45 +86,27 @@ def siteinfo(adr):
         print("Unable to find correct search parameters. Attempting common approach.")
         action="/search"
         name="q"
-    
-    return (name,action)
+    if("http" in action):
+        return(f"{action}?{name}=")
+    else:
+        return(f"{url}{action}?{name}=")
 
-websaved=readinfo()
-issaved=False
-islinked=False
+if(sys.argv[1]=="find"):
+    findparam(sys.argv[2])
+    exit()
 url=sys.argv[1]
 search="+".join(sys.argv[2:])
-    
-for webpage in websaved:
-    if(webpage==[]):
-        continue
-    if(url==webpage[0]):
-        url=webpage[1]
-        name=webpage[2]
-        action=webpage[3]
-        issaved=True
-        break
+issaved=savecheck(url)
 
-if(issaved==False):
+if(issaved==None):
     if(not checkurl(url)):
         url=fixurl(url)
-    name, action=siteinfo(url)
- 
-if("https" in action or "http" in action):
-    final=f"{action}?{name}={search}"
+    fullsearch=getlink(url)
+    wb.open(f"{fullsearch}{search}")
 else:
-    final=f"{url}{action}?{name}={search}"
+    wb.open(f"{issaved}{search}")
 
-wb.open(final)
-
-if(issaved==False):
-    for link in websaved:
-        if(link[1]==url):
-            islinked=True
-            break
-    if(islinked==False):
-        wantsave=input(f"Would you like to save this website?(Enter name for website {url} or leave blank)")
-        if(wantsave!=""):
-            saveinfo(wantsave,url,name,action)
-
-# amazon would work but BeautifulSoup can't get the page properly. Can be added manually if needed.
+if(issaved==None):
+    savename=input(f"Would you like to save this website?(Enter name for website {url} or leave blank)")
+    if(savename!=""):
+        saveinfo(savename,fullsearch)
