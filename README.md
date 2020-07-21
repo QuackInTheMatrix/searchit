@@ -22,6 +22,7 @@ pip install beautifulsoup4 requests urllib3
 * Providing all python dependencies
 * cleaning up the code
 * making a linux/windows installer
-* searching unscrapable pages by providing the search url example
+* ~~searching unscrapable pages by providing the search url example~~
 * gui with pyqt
 * gui in system tray
+* add an __init__ file and move the functions to the seperate file
