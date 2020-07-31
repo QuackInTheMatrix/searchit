@@ -8,7 +8,7 @@ The form looks like this:
 python searchit.py [website] [search]
 ```
 * For example running "python search-it.py youtube.com linux" would search youtube for linux.
-# Required python dependencies
+## Required python dependencies
 * Beautiful soup 4, requests and urllib3
 * These can be installed by running:
 ```
