@@ -9,10 +9,10 @@ python searchit.py [website] [search]
 ```
 * For example running "python search-it.py youtube.com linux" would search youtube for linux.
 ## Required python dependencies
-* Beautiful soup 4, requests and urllib3
+* Beautiful soup 4 and requests
 * These can be installed by running:
 ```
-pip install beautifulsoup4 requests urllib3
+pip install beautifulsoup4 requests
 ```
 ## Features
 * After it makes a search on a desired webpage it can also memorize it with an easier to use name of your choosing. For example instead of typing duckduckgo.com you could just type duck which makes it easier and quicker to use.
