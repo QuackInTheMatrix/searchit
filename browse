@@ -1,4 +1,5 @@
 #!/bin/bash
+cd searchit
 case $1 in
     --help)
         echo "browse [webpage] [search]"
