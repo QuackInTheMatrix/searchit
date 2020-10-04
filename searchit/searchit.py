@@ -6,5 +6,5 @@ if __name__=="__main__":
         findparam(sys.argv[2])
     else:
         url=sys.argv[1]
-        search="+".join(sys.argv[2:])
+        search=asci_encoder(" ".join(sys.argv[2:]))
         browse(url,search)

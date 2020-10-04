@@ -2,6 +2,19 @@ import requests
 from bs4 import BeautifulSoup
 import re
 import webbrowser as wb
+from string import punctuation
+import codecs
+
+def asci_encoder(find):
+    new_find = ""
+    special = set(punctuation)
+    special.add(' ')
+    for ch in find:
+        if ch in special:
+            new_find +="%"+str(codecs.encode(str.encode(ch), "hex"),"ascii")
+        else:
+            new_find += ch
+    return new_find
 
 def savecheck(url):
     websaved=readinfo()
