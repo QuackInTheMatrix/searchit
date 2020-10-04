@@ -2,8 +2,9 @@ import setuptools
  
 setuptools.setup(
       name="searchit",
-      version="0.1",
+      version="0.2rc1",
       author="Zinyx",
+      author_email="therealpepega@protonmail.com",
       description="Search you favourite webpages",
       url="https://github.com/Zinyx-projects/searchit",
       packages=setuptools.find_packages(),
