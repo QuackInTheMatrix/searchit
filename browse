@@ -1,27 +1,51 @@
 #!/bin/bash
 cd searchit
+display_help(){
+    echo -e "browse [webpage] [search]\n"\
+            "**********************************************************\n"\
+            "Description:\n"\
+            "Use the given website search function without opening the page.\n"\
+            "**********************************************************\n"\
+            "List of all availabe commands:\n\n"\
+            "browse [webpage] [search]\tWill search a website with [search]\n"\
+            "-f [\"search link\"]\tUsed for unscrapable websites by searching test and using the given link in quotes\n"\
+            "-l\tLists all saved websites"
+}
+
+stored_exists(){
+    if [[ -f stored.txt ]]; then
+        if [[ -n $(grep $1 stored.txt) ]]; then
+            return 0
+        fi
+    fi
+    return 1
+}
+
 case $1 in
     --help)
-        echo "browse [webpage] [search]"
-        echo "**********************************************************"
-        echo "Description:"
-        echo "Use the websites search function without opening the page."
-        echo "**********************************************************"
-        echo "Here is the list of all availabe commands:"
-        echo ""
-        echo "browse [webpage] [search]     Will search a website with [search]"
-        echo "-f [\"search link\"]            Used for unscrapable websites by searching test and using the given link in quotes"
-        echo "-l                            Lists all saved websites"
-        echo ""
+        display_help
         ;;
     -f)
-        python searchit.py find $2
+        if [[ -n $2 ]]; then
+            python searchit.py find $2
+        else
+            echo "Please enter a url returned from a website when searching 'test'."
+        fi
         ;;
     -l)
-        echo "This is a list of saved websites:"
-        cut -d" " -f1 stored.txt
+        if [[ -f stored.txt ]];then
+            echo "This is a list of saved websites:"
+            cut -d" " -f1 stored.txt
+        else
+            echo "No stored websites."
+        fi
         ;;
     *)
-        python searchit.py $@
+        if [[ $# == 2 && $(stored_exists $1) || $1 =~ [a-zA-Z0-9@:%._\+~#=]+\.[a-zA-Z]+ ]]; then
+            python searchit.py $@
+        else
+            echo "You entered something wrong."
+            display_help
+        fi
         ;;
 esac
