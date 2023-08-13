@@ -26,7 +26,7 @@ case $1 in
         display_help
         ;;
     -f)
-        if [[ -n $2 ]]; then
+        if [[ -n $2 && $2 =~ https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]+\.[a-zA-Z0-9()]+ ]]; then
             python searchit.py find $2
         else
             echo "Please enter a url returned from a website when searching 'test'."
