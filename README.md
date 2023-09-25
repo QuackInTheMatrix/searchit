@@ -17,8 +17,5 @@ python searchit.py [website] [search]
 ## Planned QOL CHANGES
 * ~~Providing all python dependencies~~
 * cleaning up the code
-* making a linux/windows installer(installable by pip but full installer soon!)
 * ~~searching unscrapable pages by providing the search url example~~
-* gui with pyqt
-* gui in system tray
 * ~~add an __init__ file and move the functions to the seperate file~~
